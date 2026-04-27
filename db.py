@@ -20,9 +20,10 @@ if os.path.exists(SERVICE_ACCOUNT_FILE):
 else:
     print(f"[WARNING] '{SERVICE_ACCOUNT_FILE}' not found. Firebase will NOT be connected! Make sure to download it from your Firebase project settings.")
 
-def save_prediction(original_text: str, cleaned_text: str, sentiment: str, pos_pct: float, neg_pct: float) -> str:
+def save_prediction(original_text: str, cleaned_text: str, sentiment: str, pos_pct: float, neg_pct: float,
+                     chosen_model: str = "", nb_confidence: float = 0.0, lr_confidence: float = 0.0) -> str:
     """
-    Saves the sentiment prediction result to Firestore.
+    Saves the full sentiment prediction result to Firestore.
     """
     if db_client is None:
         return "fake_id_firebase_not_connected"
@@ -34,6 +35,9 @@ def save_prediction(original_text: str, cleaned_text: str, sentiment: str, pos_p
         "sentiment": sentiment,
         "positive_percentage": pos_pct,
         "negative_percentage": neg_pct,
+        "chosen_model": chosen_model,
+        "nb_confidence": nb_confidence,
+        "lr_confidence": lr_confidence,
         "timestamp": firestore.SERVER_TIMESTAMP
     })
     

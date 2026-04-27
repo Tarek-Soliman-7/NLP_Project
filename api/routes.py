@@ -16,6 +16,8 @@ class PredictionResponse(BaseModel):
     positive_percentage: float
     negative_percentage: float
     chosen_model: str
+    nb_confidence: float
+    lr_confidence: float
     
 
 @router.post("/predict", response_model=PredictionResponse)
@@ -41,7 +43,10 @@ def handle_prediction(req: PredictionRequest):
         cleaned_text=normalized_text,
         sentiment=sentiment,
         pos_pct=pos_pct,
-        neg_pct=neg_pct
+        neg_pct=neg_pct,
+        chosen_model=chosen_model,
+        nb_confidence=nb_conf,
+        lr_confidence=lr_conf
     )
     
     # 4. Respond to the Frontend App
